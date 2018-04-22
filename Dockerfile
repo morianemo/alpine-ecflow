@@ -2,8 +2,7 @@ FROM alpine
 RUN apk update \
  && apk add --no-cache build-base cmake g++ linux-headers openssl python3-dev ca-certificates wget vim \
  && update-ca-certificates
-
-ENV ECFLOW_VERSION=4.7.0
+ENV ECFLOW_VERSION=4.9.0
 ENV BOOST_VERSION=1.53.0
 ENV DBUILD=/tmp/ecflow_build
 RUN mkdir ${DBUILD}
@@ -34,7 +33,7 @@ RUN cd ${DBUILD} \
     && mkdir -p $WK/build 
 
 RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \ 
-              BOOST_ROOT=${DBUILD}/boost_$(echo ${BOOST_VERSION} | tr '.' '_') \
+           BOOST_ROOT=${DBUILD}/boost_$(echo ${BOOST_VERSION} | tr '.' '_') \
     && cd $WK/build \
     && sed -i '1s/^/cmake_policy(SET CMP0004 OLD)/' ../cmake/ecbuild_add_library.cmake \
     && cmake -DCMAKE_CXX_FLAGS=-w -DENABLE_GUI=OFF -DENABLE_UI=OFF .. \
