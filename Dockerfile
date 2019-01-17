@@ -2,7 +2,7 @@ FROM alpine
 RUN apk update \
  && apk add --no-cache build-base cmake g++ linux-headers openssl python3-dev ca-certificates wget vim \
  && update-ca-certificates
-ENV ECFLOW_VERSION=4.9.0
+ENV ECFLOW_VERSION=4.12.0
 ENV BOOST_VERSION=1.53.0
 ENV DBUILD=/tmp/ecflow_build
 RUN mkdir ${DBUILD}
@@ -32,6 +32,13 @@ RUN cd ${DBUILD} \
     && $WK/build_scripts/boost_build.sh \
     && mkdir -p $WK/build 
 
+COPY cmake-3.13.2.tar.gz /tmp/ecflow_build/
+RUN cd /tmp/ecflow_build/ \
+    && tar -xzf cmake-3.13.2.tar.gz \
+    && cd cmake-3.13.2 \
+    && ./configure \
+    && make && make install
+    
 RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \ 
            BOOST_ROOT=${DBUILD}/boost_$(echo ${BOOST_VERSION} | tr '.' '_') \
     && cd $WK/build \
