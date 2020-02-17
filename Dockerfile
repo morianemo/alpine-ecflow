@@ -1,11 +1,10 @@
 # docker build -t alpine-ecflow .
-# FROM alpine:3.8
 FROM frolvlad/alpine-glibc
 RUN apk update \
  && apk add --no-cache build-base cmake g++ linux-headers openssl python3-dev ca-certificates wget vim \
  && update-ca-certificates
 
-ENV ECFLOW_VERSION=5.1.0
+ENV ECFLOW_VERSION=5.2.2
 ENV BOOST_VERSION=1.71.0
 ENV DBUILD=/tmp/ecflow_build
 RUN mkdir ${DBUILD}
