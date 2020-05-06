@@ -4,7 +4,7 @@ RUN apk update \
  && apk add --no-cache build-base cmake g++ linux-headers openssl python3-dev ca-certificates wget vim \
  && update-ca-certificates
 
-ENV ECFLOW_VERSION=5.3.0
+ENV ECFLOW_VERSION=5.4.0
 ENV BOOST_VERSION=1.71.0
 ENV DBUILD=/tmp/ecflow_build
 RUN mkdir ${DBUILD}
