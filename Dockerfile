@@ -24,11 +24,11 @@ RUN cd ${DBUILD} \
     && ./configure \
     && make && make install
 
-ENV ECFLOW_VERSION=5.5.1
+ENV ECFLOW_VERSION=5.5.2
 ENV BOOST_VERSION=1.71.0
-ENV WK=/tmp/ecflow_build/ecFlow-5.5.1-Source \
+ENV WK=/tmp/ecflow_build/ecFlow-5.5.2-Source \
     BOOST_ROOT=/tmp/ecflow_build/boost_1_71_0 \
-    TE=ecFlow-5.5.1-Source.tar.gz \
+    TE=ecFlow-5.5.2-Source.tar.gz \
     TB=boost_1_71_0.tar.gz \
     COMPILE=1 \
     HTTPB=https://dl.bintray.com/boostorg/release/1.71.0/source \
