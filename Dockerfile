@@ -24,11 +24,11 @@ RUN cd ${DBUILD} \
     && ./configure \
     && make && make install
 
-ENV ECFLOW_VERSION=5.5.2
+ENV ECFLOW_VERSION=5.6.0
 ENV BOOST_VERSION=1.71.0
-ENV WK=/tmp/ecflow_build/ecFlow-5.5.2-Source \
+ENV WK=/tmp/ecflow_build/ecFlow-5.6.0-Source \
     BOOST_ROOT=/tmp/ecflow_build/boost_1_71_0 \
-    TE=ecFlow-5.5.2-Source.tar.gz \
+    TE=ecFlow-5.6.0-Source.tar.gz \
     TB=boost_1_71_0.tar.gz \
     COMPILE=1 \
     HTTPB=https://dl.bintray.com/boostorg/release/1.71.0/source \
@@ -66,8 +66,8 @@ RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \
 RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \ 
            BOOST_ROOT=${DBUILD}/boost_$(echo ${BOOST_VERSION} | tr '.' '_') \
     && cd ${BOOST_ROOT} \
-    && sed -i '185d' $WK/build_scripts/boost_build.sh \
-    && sed -i '182d' $WK/build_scripts/boost_build.sh \
+    && sed -i '176d' $WK/build_scripts/boost_build.sh \
+    && sed -i '173d' $WK/build_scripts/boost_build.sh \
     && ash $WK/build_scripts/boost_build.sh && mkdir -p $WK/build 
 
 RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \ 
