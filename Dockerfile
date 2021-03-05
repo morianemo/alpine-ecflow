@@ -81,9 +81,9 @@ RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \
 
 RUN adduser -SD ecflow
 WORKDIR /home/ecflow
-# USER ecflow
+USER ecflow
 EXPOSE 2500
-# ENTRYPOINT ["/usr/local/bin/ecflow_server", "-d", "-p 2500"]
+# ENTRYPOINT ["/usr/local/bin/ecflow_start.sh", "-p 2500"]
 ENV ECFLOW_USER=ecflow \
     ECF_PORT=2500 \
     ECF_HOME=/home/ecflow \
