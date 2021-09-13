@@ -1,5 +1,5 @@
 # alpine-ecflow
-ecFlow python3
+ECMWF ecFlow
 
 https://software.ecmwf.int/wiki/display/ECFLOW/Documentation
 

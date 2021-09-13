@@ -7,7 +7,8 @@ RUN apk update \
 RUN apk add --no-cache openssl-dev perl git 
 
 # OPER
-ENV CM=https://github.com/Kitware/CMake/releases/download/v3.13.2/cmake-3.13.2.tar.gz 
+ENV CM=https://github.com/Kitware/CMake/releases/download/v3.13.2/cmake-3.13.2.tar.gz
+ENV CM=https://github.com/Kitware/CMake/releases/download/v3.21.2/cmake-3.21.2.tar.gz
 ENV CM=https://github.com/Kitware/CMake/releases/download/v3.12.4/cmake-3.12.4.tar.gz
 
 ENV DBUILD=/tmp/ecflow_build
@@ -24,11 +25,11 @@ RUN cd ${DBUILD} \
     && ./configure \
     && make -j$(grep processor /proc/cpuinfo | wc -l) && make install
 
-ENV ECFLOW_VERSION=5.7.0
+ENV ECFLOW_VERSION=5.7.1
 ENV BOOST_VERSION=1.71.0
-ENV WK=/tmp/ecflow_build/ecFlow-5.7.0-Source \
+ENV WK=/tmp/ecflow_build/ecFlow-5.7.1-Source \
     BOOST_ROOT=/tmp/ecflow_build/boost_1_71_0 \
-    TE=ecFlow-5.7.0-Source.tar.gz \
+    TE=ecFlow-5.7.1-Source.tar.gz \
     TB=boost_1_71_0.tar.gz \
     COMPILE=1 \
     HTTPB=https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/${TB} \
