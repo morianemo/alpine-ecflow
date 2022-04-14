@@ -25,15 +25,15 @@ RUN cd ${DBUILD} \
     && ./configure \
     && make -j$(grep processor /proc/cpuinfo | wc -l) && make install
 
-ENV ECFLOW_VERSION=5.7.1
+ENV ECFLOW_VERSION=5.8.3
 ENV BOOST_VERSION=1.71.0
-ENV WK=/tmp/ecflow_build/ecFlow-5.7.1-Source \
+ENV WK=/tmp/ecflow_build/ecFlow-5.8.3-Source \
     BOOST_ROOT=/tmp/ecflow_build/boost_1_71_0 \
-    TE=ecFlow-5.7.1-Source.tar.gz \
+    TE=ecFlow-5.8.3-Source.tar.gz \
     TB=boost_1_71_0.tar.gz \
     COMPILE=1 \
     HTTPB=https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/${TB} \
-    HTTP=https://software.ecmwf.int/wiki/download/attachments/8650755
+    HTTP=https://confluence.ecmwf.int/download/attachments/8650755
 
 RUN export BOOST_TGZ=boost_$(echo ${BOOST_VERSION} | tr '.' '_').tar.gz \
 	   HTTPB=https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.gz \
@@ -42,7 +42,7 @@ RUN export BOOST_TGZ=boost_$(echo ${BOOST_VERSION} | tr '.' '_').tar.gz \
     && tar -xzf ${BOOST_TGZ}
 
 RUN export ETGZ=ecFlow.tgz \
-	   HTTPE=https://software.ecmwf.int/wiki/download/attachments/8650755 \
+	   HTTPE=https://confluence.ecmwf.int/download/attachments/8650755 \
     && cd ${DBUILD} \
     && wget -O ${ETGZ} ${HTTPE}/ecFlow-$ECFLOW_VERSION-Source.tar.gz?api=v2 \
     && tar -xzf ${ETGZ}
