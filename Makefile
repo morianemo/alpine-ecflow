@@ -1,4 +1,4 @@
-TAG=alpine-ecflow
+TAG=alpine-ecflow114
 all:
 	docker build -t ${TAG} .
 b:
