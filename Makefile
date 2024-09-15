@@ -22,3 +22,8 @@ ecbuild:
 	docker build -f Dockerfile.ecbuild -t alpine-ecbuild .
 run-ecbuild:
 	docker run  --net=host -ti -t alpine-ecbuild ash
+
+deploy:
+	docker login
+	docker tag alpine-ecflow114 eowyn/alpine-ecflow:latest
+	docker push eowyn/alpine-ecflow

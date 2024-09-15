@@ -28,7 +28,6 @@ RUN mkdir -p /tmp/build
 #    && ./configure \
 #    && make -j$(grep processor /proc/cpuinfo | wc -l) && make install
 
-ENV ECFLOW_VERSION=5.13.3
 ENV BOOST_VERSION=1.71.0
 ENV WK=/tmp/ecflow_build/ecFlow-Source \
     BOOST_ROOT=/tmp/ecflow_build/boost_1_71_0 \
@@ -54,13 +53,12 @@ RUN export ETGZ=ecFlow.zip HTTPE=https://confluence.ecmwf.int/download/attachmen
 #    && wget -O ${ETGZ} ${HTTPE}/ecFlow-${ECFLOW_VERSION}-Source.tar.gz?api=v2 && tar -xzf ${ETGZ}
 # RUN apk add python2-dev
 
-RUN ln -sf ${DBUILD}/ecflow-develop ${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source
-
 RUN cd ${DBUILD} && wget -O ecbuild.zip \
   https://github.com/ecmwf/ecbuild/archive/refs/heads/develop.zip && \
   unzip ecbuild.zip && \
   cd ecbuild-* && mkdir build && cd build && cmake ../ && make && make install
-
+ENV ECFLOW_VERSION=5.13.4
+RUN ln -sf ${DBUILD}/ecflow-develop ${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source
 RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \
            BOOST_ROOT=${DBUILD}/boost_$(echo ${BOOST_VERSION} | tr '.' '_') \
     && cd ${BOOST_ROOT} \
