@@ -27,3 +27,7 @@ deploy:
 	docker login
 	docker tag alpine-ecflow114 eowyn/alpine-ecflow:latest
 	docker push eowyn/alpine-ecflow
+install-slim:
+	brew install docker-slim
+slim:
+	slim build --target ${TAG}:latest --tag ${TAG}:light --http-probe=false --exec "ecflow_server --version; ecflow_client --help ; ecflow_ui --h"
