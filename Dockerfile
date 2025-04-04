@@ -33,13 +33,13 @@ ENV WK=/tmp/ecflow_build/ecFlow-Source \
     BOOST_ROOT=/tmp/ecflow_build/boost_1_71_0 \
     TB=boost_1_71_0.tar.gz \
     COMPILE=1 \
-    HTTPB=https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/${TB}
+    HTTPB=https://archives.boost.io/release/1.71.0/source/${TB}
 # TE=ecFlow-5.12.0-Source.tar.gz
 # HTTP=https://github.com/ecmwf/ecflow/archive/refs/heads/develop.zip
 # HTTP=https://confluence.ecmwf.int/download/attachments/8650755
 
 RUN export BOOST_TGZ=boost_$(echo ${BOOST_VERSION} | tr '.' '_').tar.gz \
-	   HTTPB=https://archives.boost.org/release/1.71.0/source/boost_1_71_0.tar.gz \
+	   HTTPB=https://archives.boost.io/release/1.71.0/source/boost_1_71_0.tar.gz \
     && cd ${DBUILD} \
     && wget -O ${BOOST_TGZ} ${HTTPB} \
     && tar -xzf ${BOOST_TGZ}
