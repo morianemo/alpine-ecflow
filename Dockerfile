@@ -82,7 +82,7 @@ RUN sed -i "70i set ( ENABLE_STATIC_BOOST_LIBS OFF) " ${WK}/CMakeLists.txt
 RUN sed -i "14i find_package( Boost ) " ${WK}/CMakeLists.txt
 RUN sed -i '/^[^#]/ s/\(^.*set(ECFLOW_BOOST_VERSION.*$\)/#\ \1/' ${WK}/CMakeLists.txt
 RUN sed -i "70i set ( HAVE_TESTS OFF) " ${WK}/CMakeLists.txt
-RUN cd ${WK}/build && cmake -B . -S ..
+RUN cd ${WK}/build && BOOST_ROOT=/usr cmake -B . -S ..
 RUN cd ${WK}/build && make -j$(grep processor /proc/cpuinfo | wc -l) && make install
 
     # && cmake -DCMAKE_CXX_FLAGS=-w -DENABLE_UI=OFF -DENABLE_PYTHON=OFF .. \
