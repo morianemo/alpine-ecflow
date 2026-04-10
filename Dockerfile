@@ -34,7 +34,7 @@ ENV WK=/tmp/ecflow_build/ecFlow-Source \
     TB=boost_1_71_0.tar.gz \
     COMPILE=1 \
     HTTPB=https://archives.boost.io/release/1.71.0/source/${TB}
-# TE=ecFlow-5.15.2-Source.tar.gz
+# TE=ecFlow-5.16.0-Source.tar.gz
 # HTTP=https://github.com/ecmwf/ecflow/archive/refs/heads/develop.zip
 # HTTP=https://confluence.ecmwf.int/download/attachments/8650755
 
@@ -44,7 +44,7 @@ RUN export BOOST_TGZ=boost_$(echo ${BOOST_VERSION} | tr '.' '_').tar.gz \
     && wget -O ${BOOST_TGZ} ${HTTPB} \
     && tar -xzf ${BOOST_TGZ}
 
-RUN export ETGZ=ecFlow.zip HTTPE=https://confluence.ecmwf.int/download/attachments/8650755/ecFlow-5.15.2-Source.tar.gz?api=v2 \
+RUN export ETGZ=ecFlow.zip HTTPE=https://confluence.ecmwf.int/download/attachments/8650755/ecFlow-5.16.0-Source.tar.gz?api=v2 \
     && cd ${DBUILD} \
     && wget -O ${ETGZ} https://github.com/ecmwf/ecflow/archive/refs/heads/develop.zip && unzip ${ETGZ}
 
@@ -57,7 +57,7 @@ RUN cd ${DBUILD} && wget -O ecbuild.zip \
   https://github.com/ecmwf/ecbuild/archive/refs/heads/develop.zip && \
   unzip ecbuild.zip && \
   cd ecbuild-* && mkdir build && cd build && cmake ../ && make && make install
-ENV ECFLOW_VERSION=5.15.2
+ENV ECFLOW_VERSION=5.16.0
 RUN ln -sf ${DBUILD}/ecflow-develop ${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source
 RUN export WK=${DBUILD}/ecFlow-${ECFLOW_VERSION}-Source \
            BOOST_ROOT=${DBUILD}/boost_$(echo ${BOOST_VERSION} | tr '.' '_') \
@@ -118,6 +118,6 @@ RUN addgroup \
 COPY ./ecflow_start_nohup.sh /usr/local/bin/ecflow_start_nohup.sh
 WORKDIR /home/ecflow
 ENV DISPLAY=:0
-RUN mkdir -p $ECF_HOME && echo "5.15.2 # version" > $ECF_HOME/ecf.lists  && echo "$ECFLOW_USER" >> $ECF_HOME/ecf.lists
+RUN mkdir -p $ECF_HOME && echo "5.16.0 # version" > $ECF_HOME/ecf.lists  && echo "$ECFLOW_USER" >> $ECF_HOME/ecf.lists
 RUN chown ecflow /home/ecflow $ECF_HOME && chgrp ecflow /home/ecflow $ECF_HOME
 USER ecflow
