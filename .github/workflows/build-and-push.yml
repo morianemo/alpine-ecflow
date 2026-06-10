@@ -1,0 +1,101 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - 'Dockerfile'
+      - 'Makefile'
+      - '.github/workflows/build-and-push.yml'
+  schedule:
+    # Weekly build at Monday 00:00 UTC to keep image fresh
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+    inputs:
+      tag_override:
+        description: 'Optional tag override (e.g., 5.16.0-custom)'
+        required: false
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract version from Dockerfile
+        id: version
+        run: |
+          # Try to extract version from Dockerfile comments or ENV variables
+          VERSION=$(grep -i "ecflow.*5\." Dockerfile | head -1 | grep -oE '5\.[0-9]+\.[0-9]+' || echo "latest")
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Version: ${VERSION}"
+
+      - name: Determine tag
+        id: tag
+        run: |
+          if [ -n "${{ github.event.inputs.tag_override }}" ]; then
+            TAG="${{ github.event.inputs.tag_override }}"
+          else
+            TAG="${{ steps.version.outputs.version }}"
+          fi
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "Docker tag will be: alpine-ecflow:${TAG}"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alpine-ecflow:${{ steps.tag.outputs.tag }}
+            ${{ secrets.DOCKER_USERNAME }}/alpine-ecflow:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alpine-ecflow:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alpine-ecflow:buildcache,mode=max
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ secrets.DOCKER_USERNAME }}/alpine-ecflow
+          short-description: 'ECMWF ecFlow on Alpine Linux with Python3'
+          description: |
+            # Alpine ecFlow Docker Image
+            
+            Lightweight ECMWF ecFlow Docker image based on Alpine Linux.
+            
+            ## Tags
+            - `latest` - Latest stable version
+            - `${{ steps.tag.outputs.tag }}` - Specific version
+            
+            ## Quick Start
+            
+            ```bash
+            docker run --net=host -ti eowyn/alpine-ecflow:latest ecflow_client --help
+            docker run --net=host -ti eowyn/alpine-ecflow:latest ecflow_server --port 3141
+            ```
+            
+            ## Build Details
+            - Base: Alpine Linux (lightweight)
+            - ecFlow: Built from source (https://github.com/ecmwf/ecflow)
+            - Python3: Included for scripting
+            - Locale: Fixed for proper character encoding
+            
+            ## Documentation
+            https://confluence.ecmwf.int/display/ECFLOW/Documentation
